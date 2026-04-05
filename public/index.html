@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apartment Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>Welcome to Apartment Management System!</h1>
+
+  <div class="container">
+
+    <!-- LOGIN -->
+    <div class="login-box">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Enter Email">
+      <input type="password" id="loginPassword" placeholder="Enter Password">
+      <button class="green-btn" onclick="login()">Login</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="register-box">
+      <h2>Register</h2>
+
+      <form id="registerForm">
+        <label>Select Role:</label>
+        <select id="Role">
+          <option value="Owner">Owner</option>
+          <option value="Tenant">Tenant</option>
+          <option value="Secretary">Secretary</option>
+          <option value="Security">Security</option>
+          <option value="Cafe Owner">Cafe Owner</option>
+        </select>
+
+        <input type="text" id="regName" placeholder="Enter Username" required>
+        <input type="email" id="regEmail" placeholder="Enter Email" required>
+        <input type="password" id="CreatePassword" placeholder="Enter Password" required>
+        <input type="password" id="ConfirmPassword" placeholder="Confirm Password" required>
+        <input type="text" id="flat_number" placeholder="Enter Flat No.">
+        <input type="tel" id="Phone1" placeholder="Enter Phone No.1">
+        <input type="tel" id="Phone2" placeholder="Enter Phone No.2">
+
+        <button class="green-btn" type="submit">Register</button>
+      </form>
+    </div>
+
+  </div>
+
+  <p style="color:white; text-align:center;">
+    **Registration for new residents only.
+  </p>
+
+  <script src="script.js"></script>
+</body>
+</html>

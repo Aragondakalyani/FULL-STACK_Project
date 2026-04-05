@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hall Booking</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="booking-box">
+
+  <h2>Hall Booking</h2>
+  <p>Select a hall, date, time slot, and enter purpose to confirm your booking.</p>
+
+  <!-- Hall -->
+  <label for="hallName">Select Hall:</label>
+  <select id="hallName">
+    <option value="">Select Hall</option>
+    <option value="Banquet Hall">Banquet Hall</option>
+    <option value="Community Hall">Community Hall</option>
+  </select><br><br>
+
+  <!-- Date -->
+  <label for="date">Select Date:</label>
+  <input type="date" id="date" required /><br><br>
+
+  <!-- Time -->
+  <label for="timeSlot">Select Time:</label>
+  <select id="timeSlot">
+    <option value="">Select Time</option>
+    <option value="6AM-7AM">6:00 AM - 7:00 AM</option>
+    <option value="7AM-8AM">7:00 AM - 8:00 AM</option>
+    <option value="8AM-9AM">8:00 AM - 9:00 AM</option>
+    <option value="9AM-10AM">9:00 AM - 10:00 AM</option>
+    <option value="5PM-6PM">5:00 PM - 6:00 PM</option>
+    <option value="6PM-7PM">6:00 PM - 7:00 PM</option>
+  </select><br><br>
+
+  <!-- Purpose -->
+  <label for="purpose">Purpose of booking:</label>
+  <input type="text" id="purpose" placeholder="e.g., Birthday Party" required /><br><br>
+
+  <!-- Flat Number (editable now) -->
+  <label for="flatNumber">Flat Number:</label>
+  <input type="text" id="flatNumber" placeholder="Enter Flat Number" /><br><br>
+
+  <!-- Buttons -->
+  <button class="confirm-btn" onclick="confirmBooking()">Confirm Booking</button>
+  <button class="back-btn" onclick="goBack()">Back</button>
+
+  </div>
+
+  <script>
+    function confirmBooking() {
+      const hall_name = document.getElementById("hallName").value;
+      const date = document.getElementById("date").value;
+      const time_slot = document.getElementById("timeSlot").value;
+      const purpose = document.getElementById("purpose").value.trim();
+      const flat_number = document.getElementById("flatNumber").value.trim();
+
+      // Temporary user_id (so no error)
+      const user_id = 1;
+
+      if (!hall_name || !date || !time_slot || !purpose || !flat_number) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      fetch('/book-hall', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          hall_name,
+          booking_date: date,
+          time_slot,
+          purpose,
+          flat_number,
+          user_id
+        })
+      })
+      .then(res => res.text())
+      .then(msg => alert(msg))
+      .catch(err => {
+        console.error("Booking error:", err);
+        alert("❌ Failed to book hall.");
+      });
+    }
+
+    function goBack() {
+      window.location.href = "facilities.html";
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #333;
+      color: white;
+    }
+    select, input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      width: 250px;
+      background-color: #555;
+      color: white;
+      border: 1px solid white;
+    }
+    .confirm-btn, .back-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 5px;
+    }
+    .confirm-btn:hover, .back-btn:hover {
+      background-color: #358439;
+    }
+  </style>
+
+</body>
+</html>

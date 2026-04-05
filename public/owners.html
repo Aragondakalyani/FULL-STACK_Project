@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Owners</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>Owners</h1>
+
+  <div class="button-container">
+    <button class="dashboard-btn" onclick="openMaintenancePage()">Maintenance</button>
+    <button class="dashboard-btn" onclick="openFacilitiesPage()">Facilities and Services</button>
+    <button class="dashboard-btn" onclick="openEventsPage()">Notifications and Events</button>
+  </div>
+
+  <div class="container">
+    <h1 style="color:white;">Check Visitor Logs</h1>
+    <button id="viewVisitors">View Visitors</button>
+    <div class="visitor-box hidden" id="visitorLogs"></div>
+
+  </div>
+
+  <script>
+    function openFacilitiesPage() {
+      window.location.href = "facilities.html"; 
+    }
+
+    function openEventsPage() {
+      window.location.href = "events.html"; 
+    }
+
+    function openMaintenancePage() {
+      window.location.href = "maintenance.html"; 
+    }
+
+    document.getElementById("viewVisitors").addEventListener("click", function () {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user || !user.flat_number) {
+        alert("⚠️ Please log in to view visitor logs.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const flatNumber = user.flat_number;
+
+      fetch(`/get-visitors?flat=${flatNumber}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          const visitorLogs = document.getElementById("visitorLogs");
+
+          if (data.length === 0) {
+            visitorLogs.innerHTML = "<p style='color: white;'>No visitors found for your flat.</p>";
+          } else {
+            let visitorList = "<h3 style='color: white;'>Visitor Details:</h3>";
+            data.forEach((visitor) => {
+              visitorList += `<p style='color: white;'><b>Name:</b> ${visitor.name}<br>
+                              <b>Purpose:</b> ${visitor.purpose}<br>
+                              <b>Time:</b> ${new Date(visitor.timestamp).toLocaleString()}<br><hr></p>`;
+            });
+            visitorLogs.innerHTML = visitorList;
+          }
+
+          visitorLogs.classList.remove("hidden");
+        })
+        .catch((err) => {
+          console.error("❌ Error loading visitor data:", err);
+          document.getElementById("visitorLogs").innerHTML =
+            "<p style='color: white;'>❌ Error loading visitors</p>";
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facilities & Services</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Facilities & Services</h1>
+    
+    <div class="button-container">
+        <button class="dashboard-btn large-btn" onclick="openCourtBookingPage()">Court Booking</button>
+        <button class="dashboard-btn large-btn" onclick="openSaloonBookingPage()">Saloon Booking</button>
+        <button class="dashboard-btn large-btn" onclick="openHallBookingPage()">Hall Booking</button>
+        <button class="dashboard-btn" onclick="openCafePage()">Cafe</button>
+        <button class="dashboard-btn" onclick="openComplaintsPage()">Complaints / Feedback</button>
+    </div>
+<script>
+    function openCourtBookingPage() {
+            window.location.href = "court_booking.html"; 
+        }
+    function openSaloonBookingPage() {
+            window.location.href = "s_booking.html"; 
+        }
+    function openHallBookingPage() {
+            window.location.href = "h_booking.html"; 
+        }
+        function openCafePage() {
+            window.location.href = "cafe.html"; 
+        }
+        function openComplaintsPage() {
+            window.location.href = "complaints.html"; 
+        }
+</script>
+</body>
+</html>

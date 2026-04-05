@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1 id="sport-title"></h1>
+
+    <div class="button-container">
+        <input type="text" id="flatNo" placeholder="Enter Flat Number">
+        <input type="time" id="time">
+        <button class="dashboard-btn" onclick="bookSport()">Book</button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const sportName = params.get("sport");
+        document.getElementById("sport-title").innerText = sportName + " Booking";
+
+        function bookSport() {
+            alert(sportName + " booked successfully!");
+        }
+    </script>
+
+</body>
+</html>

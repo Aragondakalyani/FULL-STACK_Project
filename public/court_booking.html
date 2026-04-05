@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Court Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <h2>Court Booking</h2>
+    
+    <div class="court-buttons">
+        <button class="court-btn" onclick="redirectTo('badminton.html', 'Badminton')">Badminton</button>
+        <button class="court-btn" onclick="redirectTo('tennis.html', 'Tennis')">Tennis</button>
+        <button class="court-btn" onclick="redirectTo('basketball.html', 'Basketball')">Basketball</button>
+        <button class="court-btn" onclick="redirectTo('swimming.html', 'Swimming')">Swimming</button>
+        <button class="court-btn" onclick="redirectTo('chess_carrom.html', 'Chess/Carrom')">Chess/Carrom</button>
+    </div>
+</body>
+<script>
+    function redirectTo(page, courtType) {
+        window.location.href = `${page}?court_type=${encodeURIComponent(courtType)}`;;
+    }
+</script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+    }
+    .court-buttons {
+        margin-top: 20px;
+    }
+    .court-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        margin: 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 5px;
+    }
+    .court-btn:hover {
+        background-color: #2e7431;
+    }
+    h2 {
+    color: rgb(255, 255, 255); /* Change to any color you prefer */
+}
+
+</style>
+</html>

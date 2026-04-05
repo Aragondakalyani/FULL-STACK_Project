@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Maintenance</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden { display: none; } /* Hide elements initially */
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rent Payment</h1>
+        <button id="paymentBtn">Payment</button>  <!-- Button to show payment section -->
+
+        <div id="paymentSection" class="hidden">
+            <input type="number" id="paymentdetails" placeholder="Enter Amount">
+            <button id="submitPayment">Submit Payment</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("paymentBtn").addEventListener("click", function() {
+            document.getElementById("paymentSection").classList.remove("hidden"); // Show payment section
+        });
+
+        document.getElementById("submitPayment").addEventListener("click", function() {
+            let amount = document.getElementById("paymentdetails").value;
+            if (amount === "" || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+            alert("Paid Successfully!");
+            document.getElementById("paymentSection").classList.add("hidden"); // Hide payment section after payment
+        });
+    </script>
+
+</body>
+</html>

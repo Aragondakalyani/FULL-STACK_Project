@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Welcome to the Dashboard</h1>
+    
+    <div class="dashboard-container">
+        <button class="dashboard-btn" onclick="openTenantsPage()">Tenants</button>
+        <button class="dashboard-btn" onclick="openOwnersPage()">Owners</button>
+    </div>
+    
+    <div class="extra-button-container">
+        <button class="dashboard-btn large-btn" onclick="openFacilitiesPage()">Facilities & Services</button>
+        
+    </div>
+
+    <script>
+        function openTenantsPage() {
+            window.location.href = "tenants.html";
+        }
+
+        function openOwnersPage() {
+            window.location.href = "owners.html";
+        }
+
+        function openFacilitiesPage() {
+            window.location.href = "facilities.html";
+        }
+        
+        
+    </script>
+
+</body>
+</html>

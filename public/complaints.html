@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complaints</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 50px;
+      background: #1f2937;
+      color: white;
+    }
+
+    textarea {
+      width: 80%;
+      height: 150px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Submit Complaint</h1>
+
+<textarea id="complaint_text" placeholder="Enter your complaint..."></textarea><br>
+
+<button onclick="submitComplaint()">Submit</button>
+
+<script>
+function submitComplaint() {
+  const complaint_text = document.getElementById("complaint_text").value.trim();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user || !user.user_id) {
+    alert("Please login first!");
+    return;
+  }
+
+  if (!complaint_text) {
+    alert("Enter complaint!");
+    return;
+  }
+
+  fetch("http://localhost:5000/submit-complaint", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: user.user_id,
+      complaint_text: complaint_text
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("✅ Complaint submitted!");
+    document.getElementById("complaint_text").value = "";
+  })
+  .catch(err => {
+    console.error(err);
+    alert("❌ Error submitting complaint");
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us – SmartLiving</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #e0ffe6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
+      animation: float 10s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+
+    .blob1 {
+      width: 400px;
+      height: 400px;
+      background: #00ff7f;
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .blob2 {
+      width: 500px;
+      height: 500px;
+      background: #1de9b6;
+      bottom: -120px;
+      right: -150px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(40px) translateX(20px); }
+      100% { transform: translateY(0px) translateX(-20px); }
+    }
+
+    .navbar {
+      background-color: transparent;
+      padding: 15px 30px;
+      text-align: center;
+      border-bottom: 2px solid #00FF7F;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00FF7F;
+    }
+
+    .about-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 60px 20px;
+      animation: fadeIn 2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-container h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #00FF7F;
+      animation: slideDown 1s ease;
+    }
+
+    .about-container p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-align: justify;
+      animation: fadeIn 2s ease;
+    }
+
+    .section {
+      margin-top: 50px;
+      animation: slideUp 1.2s ease;
+    }
+
+    .section h2 {
+      color: #00FF7F;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    ul li {
+      margin-bottom: 12px;
+    }
+
+    .feature-icons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .feature-box {
+      background-color: #111;
+      border: 1px solid #00FF7F;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 127, 0.1);
+    }
+
+    .feature-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 20px rgba(0, 255, 127, 0.4);
+    }
+
+    .feature-box .icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #000;
+      color: #00FF7F;
+      border-top: 1px solid #00FF7F;
+      margin-top: 80px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(60px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-60px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+
+  <nav class="navbar">
+    <div class="logo">🏢 SmartLiving</div>
+    <ul style="list-style: none; margin: 0; padding: 0;">
+      <li style="display: inline-block; margin-left: 20px;">
+        <a href="index.html" style="color: #00FF7F; text-decoration: none; font-weight: bold;">🔐 Login/Register</a>
+      </li>
+    </ul>
+  </nav>
+  
+  
+
+  <div class="about-container">
+    <h1>About Us</h1>
+    <p>
+      At <strong>SmartLiving</strong>, we believe apartment life should be stress-free, efficient, and secure. That’s why we built a smart system to handle everything — from booking amenities to tracking maintenance and visitor management. Whether you're a resident, tenant, or community manager, SmartLiving ensures you’re connected to everything that matters in your apartment life.
+    </p>
+
+    <div class="section">
+      <h2>🌱 Our Mission</h2>
+      <p>
+        To build smarter, happier apartment communities by replacing traditional notice boards and manual registers with a seamless digital ecosystem.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>💡 Vision</h2>
+      <p>
+        A future where every apartment in every city runs on smart dashboards — empowering residents and simplifying management through technology.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>🚀 App Features</h2>
+      <div class="feature-icons">
+        <div class="feature-box">
+          <div class="icon">📅</div>
+          <h3>Facility Booking</h3>
+          <p>Book courts, saloons, and halls online.</p>
+        </div>
+        <div class="feature-box">
+          <div class="icon">🛠️</div>
+          <h3>Maintenance</h3>
+          <p>Raise issues and track progress easily.</p>
+        </div>
+        <div class="feature-box">
+          <div class="icon">🛡️</div>
+          <h3>Visitor Logs</h3>
+          <p>Secure visitor logging and tracking.</p>
+        </div>
+        <div class="feature-box">
+          <div class="icon">👨‍👩‍👧‍👦</div>
+          <h3>Resident Profiles</h3>
+          <p>Dashboard personalized to each flat.</p>
+        </div>
+        <div class="feature-box">
+          <div class="icon">📢</div>
+          <h3>Notices & Events</h3>
+          <p>Stay informed about community updates.</p>
+        </div>
+        <div class="feature-box">
+          <div class="icon">💳</div>
+          <h3>Payments</h3>
+          <p>Pay monthly charges online securely.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 SmartLiving Apartments | Empowering Smart Communities</p>
+  </footer>
+</body>
+</html>

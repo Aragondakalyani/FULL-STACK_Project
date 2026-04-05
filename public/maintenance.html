@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maintenance Payment</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-image: url('apt.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .glass-card {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      color: white;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .glass-card h1 {
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #fff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #333;
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #5E3B76;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3b2550;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-card">
+    <h1>Maintenance Payment</h1>
+    <input type="text" id="flatNumber" placeholder="Flat Number" readonly />
+    <input type="text" id="residentName" placeholder="Resident Name" readonly />
+    <input type="number" id="paymentAmount" placeholder="Enter Amount" />
+    <button onclick="submitPayment()">Submit Payment</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user) {
+        alert("❌ Please login first");
+        window.location.href = "/index.html";
+        return;
+      }
+
+      document.getElementById("flatNumber").value = user.flat_number || "";
+      document.getElementById("residentName").value = user.name || "";
+    });
+
+    function submitPayment() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const amount = document.getElementById("paymentAmount").value;
+
+      if (!user || !user.id) {   // ✅ FIX HERE
+        alert("❌ User not logged in");
+        window.location.href = "/index.html";
+        return;
+      }
+
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      fetch('/pay-maintenance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.id,   // ✅ FIXED HERE
+          amount: amount
+        })
+      })
+      .then(res => res.text())
+      .then(msg => alert(msg))
+      .catch(err => {
+        console.error('Payment error:', err);
+        alert("❌ Error processing payment.");
+      });
+    }
+  </script>
+
+</body>
+</html>

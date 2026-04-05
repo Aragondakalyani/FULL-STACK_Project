@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Basketball Court Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="booking-box">
+
+  <h2 id="sportTitle">Basketball Court Booking</h2>
+  <p>Select a time slot to confirm your booking.</p>
+
+  <label for="date">Select Date:</label>
+  <input type="date" id="date" required><br><br>
+
+  <label for="time_slot">Select Time:</label>
+  <select id="time_slot">
+    <option value="">Select Time</option>
+    <option value="6AM-7AM">6:00 AM - 7:00 AM</option>
+    <option value="7AM-8AM">7:00 AM - 8:00 AM</option>
+    <option value="8AM-9AM">8:00 AM - 9:00 AM</option>
+    <option value="9AM-10AM">9:00 AM - 10:00 AM</option>
+    <option value="5PM-6PM">5:00 PM - 6:00 PM</option>
+    <option value="6PM-7PM">6:00 PM - 7:00 PM</option>
+  </select><br><br>
+
+  <input type="text" id="flatNumber" placeholder="Flat Number" readonly>
+
+  <button class="confirm-btn" onclick="bookCourt(event)">Confirm Booking</button>
+  <button class="back-btn" onclick="goBack()">Back</button>
+</div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.flat_number) {
+        document.getElementById("flatNumber").value = user.flat_number;
+      }
+    });
+
+    function bookCourt(event) {
+      event.preventDefault();
+
+      const date = document.getElementById("date").value;
+      const time_slot = document.getElementById("time_slot").value;
+      const flat_number = document.getElementById("flatNumber").value;
+      const court_type = "Basketball"; // fixed since this is basketball.html
+
+      if (!date || !time_slot || !flat_number) {
+        alert("Please fill all fields before booking.");
+        return;
+      }
+
+      fetch('/book-court', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          court_type,
+          flat_number,
+          date,
+          time_slot,
+          purpose: "Recreation"
+        })
+      })
+      .then(res => res.text())
+      .then(msg => alert(msg))
+      .catch(err => {
+        console.error("❌ Booking failed:", err);
+        alert("❌ Booking failed.");
+      });
+    }
+
+    function goBack() {
+      window.location.href = "court_booking.html";
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #333;
+      color: white;
+    }
+    select, input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      width: 200px;
+    }
+    .confirm-btn, .back-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 5px;
+    }
+    .confirm-btn:hover, .back-btn:hover {
+      background-color: #358439;
+    }
+  </style>
+</body>
+</html>

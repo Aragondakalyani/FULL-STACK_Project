@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Saloon Booking</title>
+</head>
+
+<body>
+
+<div class="booking-box">
+
+  <h2>Saloon Booking</h2>
+  <p>Select a time slot and enter your flat number to confirm your booking.</p>
+
+  <!-- DATE -->
+  <label>Select Date:</label>
+  <input type="date" id="date"><br><br>
+
+  <!-- TIME -->
+  <label>Select Time:</label>
+  <select id="timeSlot">
+    <option value="">Select Time</option>
+    <option value="6AM-7AM">6:00 AM - 7:00 AM</option>
+    <option value="7AM-8AM">7:00 AM - 8:00 AM</option>
+    <option value="8AM-9AM">8:00 AM - 9:00 AM</option>
+    <option value="9AM-10AM">9:00 AM - 10:00 AM</option>
+    <option value="5PM-6PM">5:00 PM - 6:00 PM</option>
+    <option value="6PM-7PM">6:00 PM - 7:00 PM</option>
+  </select><br><br>
+
+  <!-- SERVICE -->
+  <label>Service:</label>
+  <input type="text" id="service" placeholder="Haircut, Facial"><br><br>
+
+  <!-- FLAT -->
+  <label>Flat Number:</label>
+  <input type="text" id="flatNumber" placeholder="Enter Flat No"><br><br>
+
+  <!-- BUTTONS -->
+  <button onclick="bookSaloon()">Confirm Booking</button>
+  <button onclick="goBack()">Back</button>
+
+</div>
+
+<script>
+function bookSaloon() {
+
+  const date = document.getElementById("date").value;
+  const time = document.getElementById("timeSlot").value;
+  const flat = document.getElementById("flatNumber").value.trim();
+  const service = document.getElementById("service").value.trim();
+
+  // ✅ TEMP USER ID (fix error)
+  const user_id = 1;
+
+  // ✅ VALIDATION
+  if (date === "" || time === "" || flat === "" || service === "") {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // TIME CONVERSION
+  const timeMap = {
+    "6AM-7AM": "06:00:00",
+    "7AM-8AM": "07:00:00",
+    "8AM-9AM": "08:00:00",
+    "9AM-10AM": "09:00:00",
+    "5PM-6PM": "17:00:00",
+    "6PM-7PM": "18:00:00"
+  };
+
+  const formattedTime = timeMap[time];
+
+  const timestamp = `${date} ${formattedTime}`;
+
+  // API CALL
+  fetch('/book-saloon', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user_id,
+      flat_number: flat,
+      service,
+      booking_time: timestamp
+    })
+  })
+  .then(res => res.text())
+  .then(msg => alert("✅ " + msg))
+  .catch(err => {
+    console.error(err);
+    alert("❌ Booking failed");
+  });
+}
+
+function goBack() {
+  window.location.href = "facilities.html";
+}
+</script>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #333;
+  color: white;
+}
+
+input, select {
+  padding: 10px;
+  margin: 10px;
+  width: 250px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 10px;
+  background: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+</style>
+
+</body>
+</html>

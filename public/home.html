@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartLiving – Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">🏢 SmartLiving</div>
+    <ul class="nav-links">
+     
+      <li><a href="about.html">About Us</a></li>
+    
+    </ul>
+  </nav>
+
+  <header class="hero-section" id="hero">
+    <!-- Dynamic content -->
+  </header>
+
+  <section class="features" id="features-section">
+    <!-- Dynamic feature cards will load here -->
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 SmartLiving Apartments | Designed for Connected Communities</p>
+  </footer>
+
+  <script>
+    // Dynamic Hero Section
+    document.getElementById('hero').innerHTML = `
+      <h1>Welcome to SmartLiving</h1>
+      <p>Your smart way to manage apartment life – from bookings to maintenance.</p>
+      <a href="index.html" class="btn">Get Started</a>
+    `;
+
+    // Feature Content
+    const features = [
+      { icon: "📅", title: "Easy Booking", desc: "Book courts, saloons & halls with a click." },
+      { icon: "🔧", title: "Maintenance", desc: "Raise and track your complaints instantly." },
+      { icon: "🛡️", title: "Secure Visitors", desc: "Log and monitor all your visitors safely." }
+    ];
+
+    const featureContainer = document.getElementById('features-section');
+    features.forEach(feat => {
+      featureContainer.innerHTML += `
+        <div class="feature-card">
+          <h2>${feat.icon} ${feat.title}</h2>
+          <p>${feat.desc}</p>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
