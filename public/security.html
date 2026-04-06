@@ -50,47 +50,40 @@
     </div>
 
     <script>
-document.getElementById("submitVisitor").addEventListener("click", async function () {
+        document.getElementById("submitVisitor").addEventListener("click", function () {
+  let visitorName = document.getElementById("visitorName").value;
+  let visitPurpose = document.getElementById("visitPurpose").value;
+  let flatNumber = document.getElementById("flatNumber").value;
 
-  const visitorName = document.getElementById("visitorName").value.trim();
-  const visitPurpose = document.getElementById("visitPurpose").value.trim();
-  const flatNumber = document.getElementById("flatNumber").value.trim();
-
-  if (!visitorName || !visitPurpose || !flatNumber) {
-    alert("Please fill all fields");
+  if (visitorName === "" || visitPurpose === "" || flatNumber === "") {
+    alert("Please fill in all details.");
     return;
   }
 
-  try {
-    const response = await fetch("http://localhost:3000/add-visitor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: visitorName,
-        phone: "N/A",
-        flat_number: flatNumber,
-        purpose: visitPurpose
-      })
-    });
-
-    const text = await response.text();
-
-    alert(text);
-
-    if (response.ok) {
+  fetch('/submit-visitor', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: visitorName,
+      purpose: visitPurpose,
+      flat_number: flatNumber
+    })
+  })
+    .then(res => res.text())
+    .then(msg => {
+      alert(msg);
       document.getElementById("visitorName").value = "";
       document.getElementById("visitPurpose").value = "";
       document.getElementById("flatNumber").value = "";
-    }
-
-  } catch (error) {
-    console.error("ERROR:", error);
-    alert("❌ Server not responding. Check backend.");
-  }
-<button id="submitVisitor">Submit</button>
+    })
+    .catch(err => {
+      console.error("❌ Error submitting visitor:", err);
+      alert("❌ Failed to submit visitor entry.");
+    });
 });
-</script>
+
+      </script>
+      
+
 </body>
 </html>

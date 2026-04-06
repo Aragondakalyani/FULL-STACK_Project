@@ -12,7 +12,7 @@
   <h2>Hall Booking</h2>
   <p>Select a hall, date, time slot, and enter purpose to confirm your booking.</p>
 
-  <!-- Hall -->
+  <!-- Hall Name Dropdown -->
   <label for="hallName">Select Hall:</label>
   <select id="hallName">
     <option value="">Select Hall</option>
@@ -20,11 +20,11 @@
     <option value="Community Hall">Community Hall</option>
   </select><br><br>
 
-  <!-- Date -->
+  <!-- Date Selection -->
   <label for="date">Select Date:</label>
   <input type="date" id="date" required /><br><br>
 
-  <!-- Time -->
+  <!-- Time Slot Dropdown -->
   <label for="timeSlot">Select Time:</label>
   <select id="timeSlot">
     <option value="">Select Time</option>
@@ -36,48 +36,55 @@
     <option value="6PM-7PM">6:00 PM - 7:00 PM</option>
   </select><br><br>
 
-  <!-- Purpose -->
+  <!-- Purpose Field -->
   <label for="purpose">Purpose of booking:</label>
   <input type="text" id="purpose" placeholder="e.g., Birthday Party" required /><br><br>
 
-  <!-- Flat Number (editable now) -->
+  <!-- Flat Number Auto-filled -->
   <label for="flatNumber">Flat Number:</label>
-  <input type="text" id="flatNumber" placeholder="Enter Flat Number" /><br><br>
+  <input type="text" id="flatNumber" readonly /><br><br>
 
-  <!-- Buttons -->
+  <!-- Confirm Buttons -->
   <button class="confirm-btn" onclick="confirmBooking()">Confirm Booking</button>
   <button class="back-btn" onclick="goBack()">Back</button>
-
   </div>
-
   <script>
+    // Auto-fill flat number from localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.flat_number) {
+        document.getElementById("flatNumber").value = user.flat_number;
+      }
+    });
+
     function confirmBooking() {
       const hall_name = document.getElementById("hallName").value;
       const date = document.getElementById("date").value;
       const time_slot = document.getElementById("timeSlot").value;
-      const purpose = document.getElementById("purpose").value.trim();
-      const flat_number = document.getElementById("flatNumber").value.trim();
+      const purpose = document.getElementById("purpose").value;
 
-      // Temporary user_id (so no error)
-      const user_id = 1;
+      const user = JSON.parse(localStorage.getItem("user"));
+      const flat_number = user?.flat_number;
+      const user_id = user?.user_id;
 
-      if (!hall_name || !date || !time_slot || !purpose || !flat_number) {
+      if (!hall_name || !date || !time_slot || !purpose || !flat_number || !user_id) {
         alert("Please fill in all fields.");
         return;
       }
 
       fetch('/book-hall', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          hall_name,
-          booking_date: date,
-          time_slot,
-          purpose,
-          flat_number,
-          user_id
-        })
-      })
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+  hall_name,
+  booking_date: date, // 🟢 This must be in YYYY-MM-DD format
+  time_slot,
+  purpose,
+  flat_number,
+  user_id
+})
+})
+
       .then(res => res.text())
       .then(msg => alert(msg))
       .catch(err => {

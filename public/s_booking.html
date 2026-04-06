@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Saloon Booking</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-
-<div class="booking-box">
+  <div class="booking-box">
 
   <h2>Saloon Booking</h2>
   <p>Select a time slot and enter your flat number to confirm your booking.</p>
 
-  <!-- DATE -->
-  <label>Select Date:</label>
-  <input type="date" id="date"><br><br>
+  <label for="date">Select Date:</label>
+  <input type="date" id="date" required /><br><br>
 
-  <!-- TIME -->
-  <label>Select Time:</label>
+  <label for="timeSlot">Select Time:</label>
   <select id="timeSlot">
     <option value="">Select Time</option>
     <option value="6AM-7AM">6:00 AM - 7:00 AM</option>
@@ -28,38 +26,38 @@
     <option value="6PM-7PM">6:00 PM - 7:00 PM</option>
   </select><br><br>
 
-  <!-- SERVICE -->
-  <label>Service:</label>
-  <input type="text" id="service" placeholder="Haircut, Facial"><br><br>
+  <label for="service">Enter Service:</label>
+  <input type="text" id="service" placeholder="e.g., Haircut, Facial"><br><br>
 
-  <!-- FLAT -->
-  <label>Flat Number:</label>
-  <input type="text" id="flatNumber" placeholder="Enter Flat No"><br><br>
+  <label for="flatNumber">Flat Number:</label>
+  <input type="text" id="flatNumber" readonly><br><br>
 
-  <!-- BUTTONS -->
-  <button onclick="bookSaloon()">Confirm Booking</button>
-  <button onclick="goBack()">Back</button>
+  <button class="confirm-btn" onclick="bookSaloon()">Confirm Booking</button>
+  <button class="back-btn" onclick="goBack()">Back</button>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.flat_number) {
+        document.getElementById("flatNumber").value = user.flat_number;
+      }
+    });
 
-</div>
-
-<script>
-function bookSaloon() {
-
+    function bookSaloon() {
   const date = document.getElementById("date").value;
   const time = document.getElementById("timeSlot").value;
-  const flat = document.getElementById("flatNumber").value.trim();
-  const service = document.getElementById("service").value.trim();
+  const flat = document.getElementById("flatNumber").value;
+  const service = document.getElementById("service").value;
 
-  // ✅ TEMP USER ID (fix error)
-  const user_id = 1;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const user_id = user?.user_id;
 
-  // ✅ VALIDATION
-  if (date === "" || time === "" || flat === "" || service === "") {
+  if (!date || !time || !flat || !service || !user_id) {
     alert("Please fill in all fields.");
     return;
   }
 
-  // TIME CONVERSION
+  // Convert "8AM-9AM" → "08:00:00"
   const timeMap = {
     "6AM-7AM": "06:00:00",
     "7AM-8AM": "07:00:00",
@@ -70,15 +68,16 @@ function bookSaloon() {
   };
 
   const formattedTime = timeMap[time];
+  if (!formattedTime) {
+    alert("Invalid time selected.");
+    return;
+  }
 
-  const timestamp = `${date} ${formattedTime}`;
+  const timestamp = `${date} ${formattedTime}`; // Format: YYYY-MM-DD HH:MM:SS
 
-  // API CALL
   fetch('/book-saloon', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       user_id,
       flat_number: flat,
@@ -86,42 +85,48 @@ function bookSaloon() {
       booking_time: timestamp
     })
   })
-  .then(res => res.text())
-  .then(msg => alert("✅ " + msg))
-  .catch(err => {
-    console.error(err);
-    alert("❌ Booking failed");
-  });
+    .then(res => res.text())
+    .then(msg => alert(msg))
+    .catch(err => {
+      console.error('Booking failed:', err);
+      alert("❌ Failed to book saloon appointment.");
+    });
 }
 
-function goBack() {
-  window.location.href = "facilities.html";
-}
-</script>
 
-<style>
-body {
-  font-family: Arial;
-  text-align: center;
-  background: #333;
-  color: white;
-}
+    function goBack() {
+      window.location.href = "facilities.html";
+    }
+  </script>
 
-input, select {
-  padding: 10px;
-  margin: 10px;
-  width: 250px;
-}
-
-button {
-  padding: 10px 15px;
-  margin: 10px;
-  background: green;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-</style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #333;
+      color: white;
+    }
+    select, input {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      width: 250px;
+    }
+    .confirm-btn, .back-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 5px;
+    }
+    .confirm-btn:hover, .back-btn:hover {
+      background-color: #358439;
+    }
+  </style>
 
 </body>
 </html>

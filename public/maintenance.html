@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
-      background-image: url('apt.jpg');
+      background-image: url('apt.jpg'); /* Replace with actual image or keep as-is */
       background-size: cover;
       background-position: center;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -85,26 +85,17 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const user = JSON.parse(localStorage.getItem("user"));
-
-      if (!user) {
-        alert("❌ Please login first");
-        window.location.href = "/index.html";
-        return;
+      if (user) {
+        document.getElementById("flatNumber").value = user.flat_number || "";
+        document.getElementById("residentName").value = user.name || "";
       }
-
-      document.getElementById("flatNumber").value = user.flat_number || "";
-      document.getElementById("residentName").value = user.name || "";
     });
 
     function submitPayment() {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const flat_number = document.getElementById("flatNumber").value;
+      const resident_name = document.getElementById("residentName").value;
       const amount = document.getElementById("paymentAmount").value;
-
-      if (!user || !user.id) {   // ✅ FIX HERE
-        alert("❌ User not logged in");
-        window.location.href = "/index.html";
-        return;
-      }
+      const payment_date = new Date().toISOString().split('T')[0];
 
       if (!amount || amount <= 0) {
         alert("Please enter a valid amount.");
@@ -115,8 +106,10 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user_id: user.id,   // ✅ FIXED HERE
-          amount: amount
+          flat_number,
+          resident_name,
+          amount,
+          payment_date
         })
       })
       .then(res => res.text())

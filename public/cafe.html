@@ -1,259 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Advanced Cafe Menu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Menu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin-top: 100px;
+      background-image: url('c.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+    }
 
-<style>
-* { box-sizing: border-box; }
-
-/* ✅ CAFE BACKGROUND */
-body {
-  font-family: Arial;
-  margin: 0;
-  text-align: center;
-  color: white;
-
-  background: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb') no-repeat center center fixed;
-  background-size: cover;
-}
-
-/* ✅ DARK OVERLAY */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  z-index: -1;
-}
-
-h1 { margin: 20px; }
-
-h2 {
-  margin-top: 30px;
-  color: #00ffcc;
-}
-
-.menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background: rgba(44,44,44,0.9);
-  padding: 20px;
-  border-radius: 15px;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #00ffcc;
-}
-
-/* ✅ ANIMATED ICON */
-.icon {
-  font-size: 50px;
-  animation: float 2s infinite ease-in-out;
-}
-
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-button {
-  background: linear-gradient(45deg, #00ffcc, #00ccff);
-  color: black;
-  padding: 10px;
-  border: none;
-  margin-top: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-  font-weight: bold;
-}
-</style>
+    #menuContainer img {
+      width: 80%;
+      max-width: 500px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
-
 <body>
+    </style>
+    
+</head>
+<body>
+    
 
-<h1>☕ Multi-Cuisine Cafe</h1>
+    <h1>Cafe Menu</h1>
+    <div id="menuContainer"></div>
+    
 
-<!-- MEALS -->
-<h2>🍱 Meals</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🍛</div>
-    <h3>Veg Meals</h3>
-    <p>₹120</p>
-    <button onclick="orderItem('Veg Meals',120)">Order</button>
-  </div>
+    <script>
+        // Get the latest uploaded menu image from localStorage
+        const menuImage = localStorage.getItem("menuImage");
+        const container = document.getElementById("menuContainer");
 
-  <div class="card">
-    <div class="icon">🍗</div>
-    <h3>Non-Veg Meals</h3>
-    <p>₹180</p>
-    <button onclick="orderItem('Non-Veg Meals',180)">Order</button>
-  </div>
-</div>
-
-<!-- SOUTH INDIAN -->
-<h2>South Indian</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🥞</div>
-    <h3>Dosa</h3>
-    <p>₹60</p>
-    <button onclick="orderItem('Dosa',60)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🍚</div>
-    <h3>Idli</h3>
-    <p>₹40</p>
-    <button onclick="orderItem('Idli',40)">Order</button>
-  </div>
-</div>
-
-<!-- NORTH INDIAN -->
-<h2>North Indian</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🍗</div>
-    <h3>Butter Chicken</h3>
-    <p>₹250</p>
-    <button onclick="orderItem('Butter Chicken',250)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🧀</div>
-    <h3>Paneer Butter Masala</h3>
-    <p>₹180</p>
-    <button onclick="orderItem('Paneer Butter Masala',180)">Order</button>
-  </div>
-</div>
-
-<!-- ITALIAN -->
-<h2>Italian</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🍕</div>
-    <h3>Pizza</h3>
-    <p>₹200</p>
-    <button onclick="orderItem('Pizza',200)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🍝</div>
-    <h3>Pasta</h3>
-    <p>₹150</p>
-    <button onclick="orderItem('Pasta',150)">Order</button>
-  </div>
-</div>
-
-<!-- CHINESE -->
-<h2>Chinese</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🍜</div>
-    <h3>Noodles</h3>
-    <p>₹120</p>
-    <button onclick="orderItem('Noodles',120)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🍛</div>
-    <h3>Fried Rice</h3>
-    <p>₹110</p>
-    <button onclick="orderItem('Fried Rice',110)">Order</button>
-  </div>
-</div>
-
-<!-- SNACKS -->
-<h2>Snacks</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🍟</div>
-    <h3>French Fries</h3>
-    <p>₹80</p>
-    <button onclick="orderItem('Fries',80)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🥪</div>
-    <h3>Sandwich</h3>
-    <p>₹70</p>
-    <button onclick="orderItem('Sandwich',70)">Order</button>
-  </div>
-</div>
-
-<!-- DRINKS -->
-<h2>Drinks</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">☕</div>
-    <h3>Coffee</h3>
-    <p>₹50</p>
-    <button onclick="orderItem('Coffee',50)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🥤</div>
-    <h3>Cold Drink</h3>
-    <p>₹60</p>
-    <button onclick="orderItem('Cold Drink',60)">Order</button>
-  </div>
-</div>
-
-<!-- DESSERTS -->
-<h2>Desserts</h2>
-<div class="menu">
-  <div class="card">
-    <div class="icon">🍨</div>
-    <h3>Ice Cream</h3>
-    <p>₹80</p>
-    <button onclick="orderItem('Ice Cream',80)">Order</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🍰</div>
-    <h3>Cake</h3>
-    <p>₹100</p>
-    <button onclick="orderItem('Cake',100)">Order</button>
-  </div>
-</div>
-
-<script>
-function orderItem(item_name, price) {
-  const flat_number = prompt("Enter your Flat Number:");
-
-  if (!flat_number) {
-    alert("Flat number required!");
-    return;
-  }
-
-  fetch('/order-food', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      item_name,
-      price,
-      flat_number
-    })
-  })
-  .then(res => res.text())
-  .then(msg => alert("✅ " + msg))
-  .catch(err => alert("❌ Order failed"));
-}
-</script>
+        if (menuImage) {
+            const img = document.createElement("img");
+            img.src = menuImage;
+            img.alt = "Cafe Menu";
+            container.appendChild(img);
+        } else {
+            container.innerHTML = "<p>No menu uploaded yet.</p>";
+        }
+    </script>
 
 </body>
 </html>

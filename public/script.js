@@ -1,4 +1,3 @@
-// ================= LOGIN =================
 function login() {
     let email = document.getElementById("loginEmail").value;
     let password = document.getElementById("loginPassword").value;
@@ -15,18 +14,12 @@ function login() {
     })
     .then(res => res.json())
     .then(data => {
-        console.log("LOGIN RESPONSE:", data); // 🔍 DEBUG
-
-        if (data.success && data.user) {
-
-            // ✅ STORE USER PROPERLY
+        if (data.user) {
+            // ✅ Store user details in localStorage
             localStorage.setItem("user", JSON.stringify(data.user));
 
             alert("Login Successful!");
-
-            // ✅ redirect
             redirectToRolePage(data.user.role);
-
         } else {
             alert("Login Failed: " + data.message);
         }
@@ -37,27 +30,14 @@ function login() {
     });
 }
 
-// ================= REGISTER =================
+
 function register() {
-    let name = document.getElementById("regName").value.trim();
-    let email = document.getElementById("regEmail").value.trim();
-    let password = document.getElementById("CreatePassword").value.trim();
-    let confirmPassword = document.getElementById("ConfirmPassword").value.trim();
+    let name = document.getElementById("regName").value;
+    let email = document.getElementById("regEmail").value;
+    let password = document.getElementById("CreatePassword").value;
+    let confirmPassword = document.getElementById("ConfirmPassword").value;
     let role = document.getElementById("Role").value;
-    let flatNo = document.getElementById("flat_number").value.trim();
-
-    // 🔍 Debug
-    console.log("Password:", password);
-    console.log("Confirm:", confirmPassword);
-
-    // Remove hidden spaces
-    password = password.replace(/\s/g, "");
-    confirmPassword = confirmPassword.replace(/\s/g, "");
-
-    if (!name || !email || !password || !confirmPassword) {
-        alert("Please fill all required fields!");
-        return;
-    }
+    let flatNo = document.getElementById("flat_number").value;
 
     if (password !== confirmPassword) {
         alert("Passwords do not match!");
@@ -67,19 +47,13 @@ function register() {
     fetch('/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            name,
-            email,
-            password,
-            role,
-            flat_number: flatNo
-        })
+        body: JSON.stringify({ name, email, password, role, flat_number: flatNo })
     })
     .then(res => res.json())
     .then(data => {
         if (data.success) {
             alert("Registration successful!");
-            document.getElementById("registerForm").reset();
+            window.location.href = "/index.html";
         } else {
             alert("Registration failed: " + data.message);
         }
@@ -91,7 +65,7 @@ function register() {
 }
 
 
-// ================= ROLE REDIRECT =================
+
 function redirectToRolePage(role) {
     switch (role.toLowerCase()) {
         case "owner":
@@ -110,61 +84,23 @@ function redirectToRolePage(role) {
 }
 
 
-// ================= FORM EVENT =================
 document.addEventListener("DOMContentLoaded", function () {
-
-    // FIX form submit issue
-    document.getElementById("registerForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        register();
-    });
-
-    // Disable flat number for some roles
     const roleSelect = document.getElementById("Role");
     const flatInput = document.getElementById("flat_number");
 
-    roleSelect.addEventListener("change", function () {
-        const selectedRole = roleSelect.value.toLowerCase();
-
-        const disabledRoles = ["secretary", "cafe owner", "security"];
-
-        if (disabledRoles.includes(selectedRole)) {
-            flatInput.disabled = true;
-            flatInput.value = "";
-        } else {
-            flatInput.disabled = false;
-        }
-    });
+    if (roleSelect && flatInput) {
+        roleSelect.addEventListener("change", function () {
+            const selectedRole = roleSelect.value.trim().toLowerCase();
+            const disabledRoles = ["secretary", "cafe owner", "security"];
+            if (disabledRoles.includes(selectedRole)) {
+                flatInput.disabled = true;
+                flatInput.value = "";
+            } else {
+                flatInput.disabled = false;
+            }
+        });
+        roleSelect.dispatchEvent(new Event("change"));
+    }
 });
-function payMaintenance() {
-    const user = JSON.parse(localStorage.getItem("user"));
 
-    const amount = document.getElementById("amount").value;
 
-    if (!user) {
-        alert("Please login first!");
-        return;
-    }
-
-    if (!amount) {
-        alert("Enter amount!");
-        return;
-    }
-
-    fetch('/pay-maintenance', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            user_id: user.user_id,
-            amount: amount
-        })
-    })
-    .then(res => res.text())
-    .then(data => {
-        alert(data);
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Payment failed");
-    });
-}
